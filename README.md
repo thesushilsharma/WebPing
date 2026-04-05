@@ -5,22 +5,37 @@ WebPing is a lightweight full-stack implementation of browser push notifications
 ## ✨ Features
 
 * 🔔 Native browser notifications
-* ⚡ No third-party push service (no Firebase)
-* 🔐 VAPID authentication
+* ⚡ Built with Next.js App Router
+* 🔐 VAPID authentication (no Firebase)
 * 📦 Service worker-based background notifications
+* 🐘 PostgreSQL for persistent subscriptions
 * 🌐 Works with modern browsers
+* 🧩 Drizzle ORM for type-safe DB access
+* 📡 API routes for subscription & notifications
 
 ---
 
-## 🧠 How It Works
+## 🧠 Architecture
+Client:
+* Requests notification permission
+* Registers Service Worker
+* Creates Push Subscription
 
-1. User visits the app
-2. Browser asks for notification permission
-3. Service Worker is registered
-4. Push subscription is created
-5. Subscription is sent to the backend
-6. Backend stores subscription
-7. Backend sends push notifications using VAPID keys
+Server (Next.js API routes):
+* Stores subscription in PostgreSQL
+* Sends notifications via `web-push`
+
+Database:
+* Stores user push subscriptions
+
+---
+
+## 🛠️ Tech Stack
+* **Framework:** Next.js (App Router)
+* **Database:** PostgreSQL
+* **ORM:** Drizzle ORM
+* **Push:** Web Push API
+* **Runtime:** Node.js
 
 ---
 
@@ -29,6 +44,17 @@ WebPing is a lightweight full-stack implementation of browser push notifications
 * Requires HTTPS (except localhost)
 * Works best on Chrome, Edge, Firefox
 * Safari has limited support
+* Store subscriptions securely
+* Handle expired subscriptions (cleanup needed)
+
+---
+
+## 🚀 Future Improvements
+* User authentication
+* Topic-based notifications
+* Retry queue (BullMQ / Redis)
+* Admin dashboard
+* Rate limiting
 
 ---
 
