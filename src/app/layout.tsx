@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import QueryProviders from "@/context/query-provider";
 
 const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
@@ -33,9 +34,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-zinc-50 dark:bg-[#0a0a0a] text-zinc-950 dark:text-zinc-50 selection:bg-indigo-500/30">
-        <main className="flex-1 flex flex-col">
-          {children}
-        </main>
+        
+        <QueryProviders>
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+        </QueryProviders>
       </body>
     </html>
   );
