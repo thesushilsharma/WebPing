@@ -1,20 +1,19 @@
-import { useEffect, useState, useCallback } from "react";
-import { useNotificationsStream } from "./useNotificationsStream";
+import { useQuery } from "@tanstack/react-query";
 
 export function useFetchNotifications() {
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const {
+    data: notifications = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: async () => {
+      const res = await fetch("/api/notifications");
+      if (!res.ok) throw new Error("Failed to fetch notifications");
+      return res.json();
+    },
+    refetchInterval: 5000,
+  });
 
-  const onNotifications = useCallback((newData: any[]) => {
-    setNotifications(newData);
-  }, []);
-
-  useEffect(() => {
-    fetch("/api/notifications")
-      .then((res) => res.json())
-      .then(setNotifications);
-  }, []);
-
-  useNotificationsStream(onNotifications);
-
-  return { notifications, setNotifications };
+  return { notifications, refetch, isLoading };
 }

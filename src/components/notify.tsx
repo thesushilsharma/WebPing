@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useNotifications } from "@/hooks/useNotifications";
+import { useSubscribeMutation } from "@/hooks/useSubscribeMutation";
+import { useTestNotificationMutation } from "@/hooks/useTestNotificationMutation";
 
 const urlBase64ToUint8Array = (base64String: string) => {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -20,6 +22,9 @@ const urlBase64ToUint8Array = (base64String: string) => {
 
 export default function NotificationsPage() {
   const { notifications, dismissNotification } = useNotifications();
+  const { mutateAsync: subscribeMutation, isPending: isSubscribing } = useSubscribeMutation();
+  const { mutateAsync: testNotificationMutation, isPending: isSendingTest } = useTestNotificationMutation();
+
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [registration, setRegistration] = useState<ServiceWorkerRegistration | null>(null);
 
@@ -56,15 +61,8 @@ export default function NotificationsPage() {
         ),
       });
 
+      await subscribeMutation(sub as any);
       setIsSubscribed(true);
-
-      await fetch("/api/subscribe", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify(sub),
-      });
     } catch (err) {
       console.error("Failed to subscribe the user: ", err);
       alert("Failed to subscribe: " + err);
@@ -72,7 +70,11 @@ export default function NotificationsPage() {
   };
 
   const sendTestNotification = async () => {
-    await fetch("/api/notify", { method: "POST" });
+    try {
+      await testNotificationMutation();
+    } catch (err) {
+      console.error("Failed to send test notification", err);
+    }
   };
 
   return (
