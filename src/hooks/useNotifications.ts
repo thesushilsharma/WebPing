@@ -1,5 +1,5 @@
-import { useFetchNotifications } from "./useFetchNotifications";
 import { useDismissNotification } from "./useDismissNotification";
+import { useFetchNotifications } from "./useFetchNotifications";
 
 export function useNotifications() {
   const { notifications, isLoading } = useFetchNotifications();

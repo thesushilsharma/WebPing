@@ -21,12 +21,12 @@ export async function POST() {
               auth: sub.auth,
             },
           },
-          payload
+          payload,
         );
       } catch (err) {
         console.error("Push failed:", err);
       }
-    })
+    }),
   );
 
   return new Response("Notifications sent");

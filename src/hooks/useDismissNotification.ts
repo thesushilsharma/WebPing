@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { NotificationData } from "./useFetchNotifications";
 
 export function useDismissNotification() {
   const queryClient = useQueryClient();
@@ -13,13 +14,18 @@ export function useDismissNotification() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ["notifications"] });
       const previousNotifications = queryClient.getQueryData(["notifications"]);
-      queryClient.setQueryData(["notifications"], (old: any[] | undefined) =>
-        old ? old.map((n) => (n.id === id ? { ...n, read: true } : n)) : []
+      queryClient.setQueryData(
+        ["notifications"],
+        (old: NotificationData[] | undefined) =>
+          old ? old.map((n) => (n.id === id ? { ...n, read: true } : n)) : [],
       );
       return { previousNotifications };
     },
-    onError: (err, id, context) => {
-      queryClient.setQueryData(["notifications"], context?.previousNotifications);
+    onError: (_err, _id, context) => {
+      queryClient.setQueryData(
+        ["notifications"],
+        context?.previousNotifications,
+      );
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["notifications"] });

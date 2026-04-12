@@ -92,9 +92,7 @@
         "subscriptions_endpoint_unique": {
           "name": "subscriptions_endpoint_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "endpoint"
-          ]
+          "columns": ["endpoint"]
         }
       },
       "policies": {},

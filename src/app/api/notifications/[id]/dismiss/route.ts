@@ -4,12 +4,13 @@ import { eq } from "drizzle-orm";
 
 export async function POST(
   _req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   await db
     .update(notifications)
     .set({ read: true })
-    .where(eq(notifications.id, params.id));
+    .where(eq(notifications.id, id));
 
   return Response.json({ success: true });
 }
