@@ -1,4 +1,5 @@
 import { Bell, Code2, Database, Globe, ShieldCheck, Zap } from "lucide-react";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -45,17 +46,23 @@ export default function LandingPage() {
             Powered by VAPID and PostgreSQL.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
-            <a
-              href="#features"
+            <Link
+              href="/notifications"
               className="rounded-full bg-indigo-600 px-8 py-3.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all hover:scale-105 active:scale-95"
             >
-              Explore Features
+              Go to Notifications
+            </Link>
+            <a
+              href="#features"
+              className="text-sm font-semibold leading-6 text-zinc-900 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+            >
+              Explore Features <span aria-hidden="true">↓</span>
             </a>
             <a
               href="https://github.com/thesushilsharma/WebPing"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm font-semibold leading-6 text-zinc-900 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"
+              className="text-sm font-semibold leading-6 text-zinc-900 dark:text-white hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors hidden sm:inline"
             >
               GitHub Repo <span aria-hidden="true">→</span>
             </a>
