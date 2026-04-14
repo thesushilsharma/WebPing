@@ -8,6 +8,13 @@
       "when": 1775669499264,
       "tag": "0000_magenta_stick",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776188810434,
+      "tag": "0001_yielding_angel",
+      "breakpoints": true
     }
   ]
 }

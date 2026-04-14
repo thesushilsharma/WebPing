@@ -5,6 +5,7 @@ export const subscriptions = pgTable("subscriptions", {
   endpoint: text("endpoint").notNull().unique(),
   p256dh: text("p256dh").notNull(),
   auth: text("auth").notNull(),
+  topics: text("topics").array().notNull().default(["General"]),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

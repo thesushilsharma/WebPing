@@ -2,14 +2,21 @@ import { db } from "@/lib/db";
 import { subscriptions } from "@/lib/schema";
 import webPush from "@/lib/webpush";
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { eq, arrayContains } from "drizzle-orm";
 
-export async function POST() {
-  const subs = await db.select().from(subscriptions);
+export async function POST(req: Request) {
+  const { topic } = await req.json().catch(() => ({ topic: "All" }));
+
+  let subs;
+  if (topic && topic !== "All") {
+    subs = await db.select().from(subscriptions).where(arrayContains(subscriptions.topics, [topic]));
+  } else {
+    subs = await db.select().from(subscriptions);
+  }
 
   const payload = JSON.stringify({
-    title: "PushPulse 🚀",
-    body: "New notification from your app!",
+    title: topic && topic !== "All" ? `PushPulse 🚀 - ${topic}` : "PushPulse 🚀",
+    body: `New notification from your app${topic && topic !== "All" ? ` for ${topic}` : ""}!`,
   });
 
   await Promise.all(

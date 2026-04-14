@@ -1,0 +1,1 @@
+ALTER TABLE "subscriptions" ADD COLUMN "topics" text[] DEFAULT '{"General"}' NOT NULL;
